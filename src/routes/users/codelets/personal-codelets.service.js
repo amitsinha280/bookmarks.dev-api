@@ -71,7 +71,7 @@ let deleteCodeletById = async (userId, codeletId) => {
 };
 
 /* GET suggested tags used for user */
-let getSuggestedCodeletTagsForUser = async (userId) => {
+let getSuggestedCodeletTags = async (userId) => {
 
   const tags = await Codelet.distinct("tags",
     {userId: userId}
@@ -83,7 +83,7 @@ let getSuggestedCodeletTagsForUser = async (userId) => {
 
 module.exports = {
   createCodelet: createCodelet,
-  getSuggestedCodeletTagsForUser: getSuggestedCodeletTagsForUser,
+  getSuggestedCodeletTags: getSuggestedCodeletTags,
   getCodeletById: getCodeletById,
   updateCodelet: updateCodelet,
   deleteCodeletById: deleteCodeletById,

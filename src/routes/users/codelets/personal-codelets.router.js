@@ -27,8 +27,20 @@ personalCodeletsRouter.post('/', keycloak.protect(), async (request, response) =
   response
     .set('Location', `${config.basicApiUrl}/personal/users/${request.params.userId}/bookmarks/${newBookmark.id}`)
     .status(HttpStatus.CREATED)
-    .send({response: 'Bookmark created for userId ' + request.params.userId});
+    .send({response: 'Codelet created for userId ' + request.params.userId});
 
+});
+
+/**
+ * GET suggested tags used by user
+ *
+ * Order matters - needs to be GET codelet by id
+ **/
+personalCodeletsRouter.get('/suggested-tags', keycloak.protect(), async (request, response) => {
+  UserIdValidator.validateUserId(request);
+  const tags = await PersonalCodeletsService.getSuggestedCodeletTags(request.params.userId);
+
+  response.send(tags);
 });
 
 /* GET codelet of user */
@@ -114,16 +126,6 @@ personalCodeletsRouter.get('/', keycloak.protect(), async (request, response) =>
 
   return response.send(bookmarks);
 });
-
-/* GET suggested tags used by user */
-personalCodeletsRouter.get('/suggested-tags', keycloak.protect(), async (request, response) => {
-  UserIdValidator.validateUserId(request);
-  const tags = await PersonalCodeletsService.getSuggestedTagsForUser(request.params.userId);
-
-  response.send(tags);
-});
-
-
 
 
 module.exports = personalCodeletsRouter;
