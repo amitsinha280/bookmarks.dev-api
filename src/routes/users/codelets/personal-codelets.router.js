@@ -76,7 +76,7 @@ personalCodeletsRouter.delete('/:codeletId', keycloak.protect(), async (request,
 
   UserIdValidator.validateUserId(request);
   const {userId, codeletId} = request.params;
-  await PersonalCodeletsService.deleteBookmarkById(userId, codeletId);
+  await PersonalCodeletsService.deleteCodeletById(userId, codeletId);
   return response.status(HttpStatus.NO_CONTENT).send();
 });
 
