@@ -19,23 +19,25 @@ let validateCodeletInput = function(userId, codelet) {
   if (!codelet.codeSnippets) {
     validationErrorMessages.push('Missing required attribute - codeSnippets');
   }
+  if (codelet.codeSnippets && codelet.codeSnippets.length > 0) {
+    for(let codeSnippet of codelet.codeSnippets) {
+      const descriptionIsTooLong = codeSnippet.length > constants.MAX_NUMBER_OF_CHARS_FOR_CODE_SNIPPET;
+      if (descriptionIsTooLong) {
+        validationErrorMessages.push('The code snippet is too long. Max ' + constants.MAX_NUMBER_OF_CHARS_FOR_CODE_SNIPPET + ' allowed');
+      }
+
+      const descriptionHasTooManyLines = codeSnippet.split('\n').length > constants.MAX_NUMBER_OF_LINES_FOR_CODE_SNIPPET;
+      if (descriptionHasTooManyLines) {
+        validationErrorMessages.push('The code snippet hast too many lines. Max ' + constants.MAX_NUMBER_OF_LINES_FOR_CODE_SNIPPET + ' allowed');
+      }
+    }
+  }
+
   if (!codelet.tags || codelet.tags.length === 0) {
     validationErrorMessages.push('Missing required attribute - tags');
   } else if (codelet.tags.length > constants.MAX_NUMBER_OF_TAGS) {
     validationErrorMessages.push('Too many tags have been submitted - max allowed 8');
   }
-
-/*  if (codelet.codeSnippet) {
-    const descriptionIsTooLong = codelet.codeSnippet.length > constants.MAX_NUMBER_OF_CHARS_FOR_CODE_SNIPPET;
-    if (descriptionIsTooLong) {
-      validationErrorMessages.push('The code snippet is too long. Only ' + constants.MAX_NUMBER_OF_CHARS_FOR_CODE_SNIPPET + ' allowed');
-    }
-
-    const descriptionHasTooManyLines = codelet.codeSnippet.split('\n').length > constants.MAX_NUMBER_OF_LINES_FOR_CODE_SNIPPET;
-    if (descriptionHasTooManyLines) {
-      validationErrorMessages.push('The code snippet hast too many lines. Only ' + constants.MAX_NUMBER_OF_LINES_FOR_CODE_SNIPPET + ' allowed');
-    }
-  }*/
 
   if(validationErrorMessages.length > 0){
     throw new ValidationError('The codelet you submitted is not valid', validationErrorMessages);
