@@ -1,9 +1,19 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+/*
+ order is imported - used sub-schemas need to be defined before?!
+ */
+const CodeSnippetSchema = new Schema({
+  _id: {type:Schema.Types.ObjectId, select: false},
+  code: String,
+  language: String,
+  comment: String,
+});
+
 const codeletSchema = new Schema({
     title: {type:String, required: true},
-    codeSnippet: {type:String, required: true},
+    codeSnippets: [CodeSnippetSchema],
     tags: [String],
     userId: {type: String, ref:'User'},
     userDisplayName: String,
@@ -20,3 +30,4 @@ const codeletSchema = new Schema({
 });
 
 module.exports = mongoose.model('Codelet', codeletSchema);
+

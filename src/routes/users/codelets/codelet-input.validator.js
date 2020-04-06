@@ -16,8 +16,8 @@ let validateCodeletInput = function(userId, codelet) {
   if (!codelet.title) {
     validationErrorMessages.push('Missing required attribute - name');
   }
-  if (!codelet.codeSnippet) {
-    validationErrorMessages.push('Missing required attribute - location');
+  if (!codelet.codeSnippets) {
+    validationErrorMessages.push('Missing required attribute - codeSnippets');
   }
   if (!codelet.tags || codelet.tags.length === 0) {
     validationErrorMessages.push('Missing required attribute - tags');
@@ -25,7 +25,7 @@ let validateCodeletInput = function(userId, codelet) {
     validationErrorMessages.push('Too many tags have been submitted - max allowed 8');
   }
 
-  if (codelet.codeSnippet) {
+/*  if (codelet.codeSnippet) {
     const descriptionIsTooLong = codelet.codeSnippet.length > constants.MAX_NUMBER_OF_CHARS_FOR_CODE_SNIPPET;
     if (descriptionIsTooLong) {
       validationErrorMessages.push('The code snippet is too long. Only ' + constants.MAX_NUMBER_OF_CHARS_FOR_CODE_SNIPPET + ' allowed');
@@ -35,7 +35,7 @@ let validateCodeletInput = function(userId, codelet) {
     if (descriptionHasTooManyLines) {
       validationErrorMessages.push('The code snippet hast too many lines. Only ' + constants.MAX_NUMBER_OF_LINES_FOR_CODE_SNIPPET + ' allowed');
     }
-  }
+  }*/
 
   if(validationErrorMessages.length > 0){
     throw new ValidationError('The codelet you submitted is not valid', validationErrorMessages);
