@@ -31,6 +31,16 @@ let getCodeletById = async (userId, codeletId) => {
   }
 };
 
+/* GET bookmark of user by bookmarkId */
+let getCodelets = async (userId) => {
+
+  const codelets = await Codelet.find({
+    userId: userId
+  });
+
+  return codelets;
+};
+
 /**
  * full UPDATE via PUT - that is the whole document is required and will be updated
  * the descriptionHtml parameter is only set in backend, if only does not come front-end (might be an API call)
@@ -85,6 +95,7 @@ module.exports = {
   createCodelet: createCodelet,
   getSuggestedCodeletTags: getSuggestedCodeletTags,
   getCodeletById: getCodeletById,
+  getCodelets: getCodelets,
   updateCodelet: updateCodelet,
   deleteCodeletById: deleteCodeletById,
 };

@@ -43,6 +43,17 @@ personalCodeletsRouter.get('/suggested-tags', keycloak.protect(), async (request
   response.send(tags);
 });
 
+/* GET all personal codelets */
+personalCodeletsRouter.get('/', keycloak.protect(), async (request, response) => {
+  UserIdValidator.validateUserId(request);
+
+  const {userId, codeletId} = request.params;
+  const codelet = await PersonalCodeletsService.getCodelets(userId);
+
+  return response.status(HttpStatus.OK).send(codelet);
+});
+
+
 /* GET codelet of user */
 personalCodeletsRouter.get('/:codeletId', keycloak.protect(), async (request, response) => {
   UserIdValidator.validateUserId(request);
