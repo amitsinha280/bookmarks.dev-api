@@ -3,6 +3,7 @@ const personalCodeletsRouter = express.Router({mergeParams: true});
 const Keycloak = require('keycloak-connect');
 
 const PersonalCodeletsService = require('./personal-codelets.service');
+const PersonalCodeletsSearchService = require('./personal-codelets-search.service');
 const UserIdValidator = require('../userid.validator');
 const PaginationQueryParamsHelper = require('../../../common/pagination-query-params-helper');
 
@@ -47,8 +48,12 @@ personalCodeletsRouter.get('/suggested-tags', keycloak.protect(), async (request
 personalCodeletsRouter.get('/', keycloak.protect(), async (request, response) => {
   UserIdValidator.validateUserId(request);
 
-  const {userId, codeletId} = request.params;
-  const codelet = await PersonalCodeletsService.getCodelets(userId);
+
+  const searchText = request.query.q;
+  const {page, limit} = PaginationQueryParamsHelper.getPageAndLimit(request);
+
+  const {userId} = request.params;
+  const codelet = await PersonalCodeletsSearchService.findPersonalCodelets(searchText, page, limit, userId);
 
   return response.status(HttpStatus.OK).send(codelet);
 });

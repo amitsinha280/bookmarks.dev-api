@@ -21,12 +21,12 @@ let validateCodeletInput = function(userId, codelet) {
   }
   if (codelet.codeSnippets && codelet.codeSnippets.length > 0) {
     for(let codeSnippet of codelet.codeSnippets) {
-      const descriptionIsTooLong = codeSnippet.length > constants.MAX_NUMBER_OF_CHARS_FOR_CODE_SNIPPET;
+      const descriptionIsTooLong = codeSnippet.code.length > constants.MAX_NUMBER_OF_CHARS_FOR_CODE_SNIPPET;
       if (descriptionIsTooLong) {
         validationErrorMessages.push('The code snippet is too long. Max ' + constants.MAX_NUMBER_OF_CHARS_FOR_CODE_SNIPPET + ' allowed');
       }
 
-      const descriptionHasTooManyLines = codeSnippet.split('\n').length > constants.MAX_NUMBER_OF_LINES_FOR_CODE_SNIPPET;
+      const descriptionHasTooManyLines = codeSnippet.code.split('\n').length > constants.MAX_NUMBER_OF_LINES_FOR_CODE_SNIPPET;
       if (descriptionHasTooManyLines) {
         validationErrorMessages.push('The code snippet hast too many lines. Max ' + constants.MAX_NUMBER_OF_LINES_FOR_CODE_SNIPPET + ' allowed');
       }
